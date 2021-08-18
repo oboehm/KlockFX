@@ -46,7 +46,7 @@ object TextKlock {
     }
 
     private fun toString(hour: Int): String {
-        val numbers = arrayOf(
+        val numbers: Array<String> = arrayOf(
             "zw\u00f6lf", "eins", "zwei", "drei", "vier", "f\u00fcnf", "sechs",
             "sieben", "acht", "neun", "zehn", "elf", "zw\u00f6lf", "eins"
         )

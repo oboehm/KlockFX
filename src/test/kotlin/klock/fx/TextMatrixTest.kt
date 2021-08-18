@@ -35,10 +35,37 @@ internal class TextMatrixTest {
     }
 
     @Test
-    fun getWordsWeighted() {
-        val weighted = matrix.getWordsWeighted();
+    fun getWordsPositioned() {
+        val weighted = matrix.getWordsPositioned();
         assertFalse(weighted.isEmpty());
         LOG.info("weighted = {}", weighted);
+    }
+    
+    @Test
+    fun getTimeOneElement() {
+        val klock = TextKlock
+        val words: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
+        val times: Set<Array<String>> = setOf(words)
+        val wordMatrix = matrix.getMatrix(times)
+        assertEquals("es ist ein Uhr", wordMatrix)
+    }
+
+    @Test
+    fun getTimeTwoElements() {
+        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
+        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins");
+        val times: Set<Array<String>> = setOf(one, two);
+        val wordMatrix = matrix.getMatrix(times)
+        assertEquals("es ist fuenf nach einsUhr", wordMatrix);
+    }
+
+    @Test
+    fun buildVariants() {
+        val one: Array<String> = arrayOf("1", "2", "3");
+        val two: Array<String> = arrayOf("a", "b");
+        val variants = matrix.buildVariants(one, two)
+        assertFalse(variants.isEmpty())
+        assertTrue(variants.size > 1)
     }
 
 }
