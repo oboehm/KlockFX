@@ -18,8 +18,8 @@
 package klock.fx
 
 import org.apache.logging.log4j.LogManager
+import java.util.Collections.list
 import java.util.Collections.swap
-import javax.management.Query.plus
 
 class TextMatrix {
 
@@ -78,25 +78,89 @@ class TextMatrix {
         matrix = matrix + " " + word
     }
 
+    fun buildMatrix() : List<List<String>> {
+        val allTimes : List<String> = klock.getAllTimes()
+        var matrixList = listOf<List<String>>(listOf())
+        for (words in allTimes) {
+            var newMatrixList = mutableListOf<List<String>>()
+            for (matrix in matrixList) {
+                val newMatrix = buildVariants(matrix.toTypedArray(), words.split(' ').toTypedArray())
+                newMatrixList.addAll(newMatrix)
+            }
+            matrixList = filterShortestVariants(newMatrixList)
+        }
+        return matrixList
+    }
 
-    // Hier werden 2 Arrays verknuepft und alle Varianten gebildet.
-    // Aus (a, b, c) und (d, e) enstehen dann die Varianten
-    // (a, b, c, d, e)
-    // (a, b, d, c, e)
-    // (a, b, d, e, c)
-    // ...
-    // (d, e, a, b, c)
+    private fun filterShortestVariants(matrixList: List<List<String>>): List<List<String>> {
+        var min = Int.MAX_VALUE
+        for (element in matrixList) {
+            if (element.size < min) {
+                min = element.size
+            }
+        }
+        val filtered = mutableListOf<List<String>>()
+        for (element in matrixList) {
+            if (element.size == min) {
+                filtered.add(element)
+            }
+        }
+        return filtered
+    }
+
     fun buildVariants(a: Array<String>, b: Array<String>): List<List<String>> {
         val c: Array<String> = a.plus(b)
         //val permutations = permute(c.toList())
         val permutations = c.toList().permutations()
         var filtered = removeWrongRange(permutations, a)
         filtered = removeWrongRange(filtered, b)
-        LOG.info("{} elements:", filtered.size)
-        for (x in filtered) {
-            LOG.info("{}", x)
-        }
+        filtered = removeDoubleElements(filtered)
+        filtered = removeLongElements(filtered)
         return filtered
+    }
+
+    private fun removeLongElements(elements: List<List<String>>): List<List<String>> {
+        val shortened = mutableListOf<List<String>>()
+        val min = getMinLength(elements)
+        for (x in elements) {
+            if (x.size == min) {
+                shortened.add(x)
+            }
+        }
+        return shortened
+    }
+
+    private fun getMinLength(elements: List<List<String>>): Any? {
+        var min = Integer.MAX_VALUE
+        for (x in elements) {
+            if (x.size < min) {
+                min = x.size
+            }
+        }
+        return min
+    }
+
+    private fun removeDoubleElements(variants: List<List<String>>): List<List<String>> {
+        val shortened = mutableListOf<List<String>>()
+        for (x in variants) {
+            val unduplicate = removeDoubleWords(x)
+            if (!shortened.contains(unduplicate)) {
+                shortened.add(unduplicate)
+            }
+        }
+        return shortened
+    }
+
+    private fun removeDoubleWords(x: List<String>): List<String> {
+        val unduplicate = mutableListOf<String>()
+        var lastWord = ""
+        for (word in x) {
+            if (word != lastWord) {
+                unduplicate.add(word)
+            }
+            lastWord = word
+        }
+        return unduplicate
     }
 
     private fun removeWrongRange(allPerms: List<List<String>>, a: Array<String>): List<List<String>> {

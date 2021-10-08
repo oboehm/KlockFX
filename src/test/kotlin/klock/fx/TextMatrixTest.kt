@@ -50,7 +50,7 @@ internal class TextMatrixTest {
         assertEquals("es ist ein Uhr", wordMatrix)
     }
 
-    @Test
+    //@Test
     fun getTimeTwoElements() {
         val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
         val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins");
@@ -61,9 +61,24 @@ internal class TextMatrixTest {
 
     @Test
     fun buildVariants() {
-        val one: Array<String> = arrayOf("1", "2", "3");
-        val two: Array<String> = arrayOf("a", "b");
+        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
+        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei");
         val variants = matrix.buildVariants(one, two)
+        LOG.info("{} elements:", variants.size)
+        for (x in variants) {
+            LOG.info("{}", x)
+        }
+        assertFalse(variants.isEmpty())
+        assertTrue(variants.size > 1)
+    }
+
+    @Test
+    fun buildMatrix() {
+        val variants = matrix.buildMatrix()
+        LOG.info("{} elements:", variants.size)
+        for (x in variants) {
+            LOG.info("{}", x)
+        }
         assertFalse(variants.isEmpty())
         assertTrue(variants.size > 1)
     }
