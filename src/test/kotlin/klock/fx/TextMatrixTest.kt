@@ -30,21 +30,20 @@ internal class TextMatrixTest {
     @Test
     fun getKlock() {
         val words = matrix.getWords()
-        assertTrue(words.size > 12);
+        assertTrue(words.size > 12)
         LOG.info("words = {}", words)
     }
 
     @Test
     fun getWordsPositioned() {
-        val weighted = matrix.getWordsPositioned();
-        assertFalse(weighted.isEmpty());
-        LOG.info("weighted = {}", weighted);
+        val weighted = matrix.getWordsPositioned()
+        assertFalse(weighted.isEmpty())
+        LOG.info("weighted = {}", weighted)
     }
     
     @Test
     fun getTimeOneElement() {
-        val klock = TextKlock
-        val words: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
+        val words: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
         val times: Set<Array<String>> = setOf(words)
         val wordMatrix = matrix.getMatrix(times)
         assertEquals("es ist ein Uhr", wordMatrix)
@@ -52,27 +51,42 @@ internal class TextMatrixTest {
 
     //@Test
     fun getTimeTwoElements() {
-        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
-        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins");
-        val times: Set<Array<String>> = setOf(one, two);
+        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
+        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins")
+        val times: Set<Array<String>> = setOf(one, two)
         val wordMatrix = matrix.getMatrix(times)
-        assertEquals("es ist fuenf nach einsUhr", wordMatrix);
+        assertEquals("es ist fuenf nach einsUhr", wordMatrix)
     }
 
     @Test
     fun buildVariants() {
-        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr");
-        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei");
+        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
+        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei")
         val variants = matrix.buildVariants(one, two)
         LOG.info("{} elements:", variants.size)
         for (x in variants) {
             LOG.info("{}", x)
+            assertContains(x, one)
+            assertContains(x, two)
         }
         assertFalse(variants.isEmpty())
         assertTrue(variants.size > 1)
     }
 
-    @Test
+    private fun assertContains(list: List<String>, parts: Array<String>) {
+        var i = 0
+        for (word in list) {
+            if (word == parts[i]) {
+                i++
+            }
+            if (i >= parts.size) {
+                return
+            }
+        }
+        throw AssertionError(parts[i] + " fehlt in " + list)
+    }
+
+    //@Test
     fun buildMatrix() {
         val variants = matrix.buildMatrix()
         LOG.info("{} elements:", variants.size)
