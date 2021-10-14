@@ -82,7 +82,7 @@ class TextMatrix {
         val allTimes : List<String> = klock.getAllTimes()
         var matrixList = listOf<List<String>>(listOf())
         for (words in allTimes) {
-            var newMatrixList = mutableListOf<List<String>>()
+            val newMatrixList = mutableListOf<List<String>>()
             for (matrix in matrixList) {
                 val newMatrix = buildVariants(matrix.toTypedArray(), words.split(' ').toTypedArray())
                 newMatrixList.addAll(newMatrix)
@@ -109,7 +109,8 @@ class TextMatrix {
     }
 
     fun buildVariants(a: Array<String>, b: Array<String>): List<List<String>> {
-        val c: Array<String> = a.plus(b)
+        val minimized = stripDuplicates(a, b)
+        val c: Array<String> = a.plus(minimized)
         //val permutations = permute(c.toList())
         val permutations = c.toList().permutations()
         var filtered = removeWrongRange(permutations, a)
@@ -117,6 +118,26 @@ class TextMatrix {
         filtered = removeDoubleElements(filtered)
         filtered = removeLongElements(filtered)
         return filtered
+    }
+
+    // Elemente aus a, die in b vorkommen, werden enfernt
+    private fun stripDuplicates(a: Array<String>, b: Array<String>): Array<String> {
+        val stripped = mutableListOf<String>()
+        var aIndex = 0
+        for (elem in b) {
+            var found = false
+            for (i in aIndex..a.size-1) {
+                if (elem == a[i]) {
+                    aIndex = i+1
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                stripped.add(elem)
+            }
+        }
+        return stripped.toTypedArray()
     }
 
     private fun removeLongElements(elements: List<List<String>>): List<List<String>> {
@@ -130,7 +151,7 @@ class TextMatrix {
         return shortened
     }
 
-    private fun getMinLength(elements: List<List<String>>): Any? {
+    private fun getMinLength(elements: List<List<String>>): Int {
         var min = Integer.MAX_VALUE
         for (x in elements) {
             if (x.size < min) {
