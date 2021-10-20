@@ -20,6 +20,7 @@ package klock.fx
 import org.apache.logging.log4j.LogManager
 import java.util.Collections.list
 import java.util.Collections.swap
+import kotlin.math.min
 
 class TextMatrix {
 
@@ -88,6 +89,7 @@ class TextMatrix {
                 newMatrixList.addAll(newMatrix)
             }
             matrixList = filterShortestVariants(newMatrixList)
+            logVariants(matrixList)
         }
         return matrixList
     }
@@ -108,7 +110,17 @@ class TextMatrix {
         return filtered
     }
 
-    fun buildVariants(a: Array<String>, b: Array<String>): List<List<String>> {
+    fun logVariants(variants: List<List<String>>) {
+        for (x in variants) {
+            LOG.info("{}", x)
+        }
+    }
+
+    fun buildVariants(one: Array<String>, two: Array<String>): List<List<String>> {
+        val header = findCommonHeader(one, two)
+        val footer = findCommonFooter(one, two)
+        val a = one.copyOfRange(header.size, one.size-footer.size)
+        val b = two.copyOfRange(header.size, two.size-footer.size)
         val minimized = stripDuplicates(a, b)
         val c: Array<String> = a.plus(minimized)
         //val permutations = permute(c.toList())
@@ -117,7 +129,26 @@ class TextMatrix {
         filtered = removeWrongRange(filtered, b)
         filtered = removeDoubleElements(filtered)
         filtered = removeLongElements(filtered)
+        filtered = addHeaderAndFooter(filtered, header.toList(), footer.toList())
         return filtered
+    }
+
+    private fun findCommonHeader(a: Array<String>, b: Array<String>): Array<String> {
+        val header = mutableListOf<String>()
+        val n = min(a.size, b.size)
+        for (i in 0..n-1) {
+            if (a[i] == b[i]) {
+                header.add(a[i])
+            } else {
+                break
+            }
+        }
+        return header.toTypedArray()
+    }
+
+    private fun findCommonFooter(a: Array<String>, b: Array<String>): Array<String> {
+        val footer = findCommonHeader(a.reversedArray(), b.reversedArray())
+        return footer.reversedArray()
     }
 
     // Elemente aus a, die in b vorkommen, werden enfernt
@@ -138,6 +169,14 @@ class TextMatrix {
             }
         }
         return stripped.toTypedArray()
+    }
+
+    private fun addHeaderAndFooter(matrix: List<List<String>>, header: List<String>, footer: List<String>): List<List<String>> {
+        val extended = mutableListOf<List<String>>()
+        for (elem in matrix) {
+            extended.add(header.plus(elem).plus(footer))
+        }
+        return extended
     }
 
     private fun removeLongElements(elements: List<List<String>>): List<List<String>> {

@@ -64,8 +64,8 @@ internal class TextMatrixTest {
         val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei")
         val variants = matrix.buildVariants(one, two)
         LOG.info("{} elements:", variants.size)
+        matrix.logVariants(variants)
         for (x in variants) {
-            LOG.info("{}", x)
             assertContains(x, one)
             assertContains(x, two)
         }
@@ -86,7 +86,7 @@ internal class TextMatrixTest {
         throw AssertionError(parts[i] + " fehlt in " + list)
     }
 
-    //@Test
+    @Test
     fun buildMatrix() {
         val variants = matrix.buildMatrix()
         LOG.info("{} elements:", variants.size)
