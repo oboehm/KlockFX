@@ -18,6 +18,8 @@
 package klock.fx
 
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.PrintWriter
 import java.util.Collections.list
 import java.util.Collections.swap
 import kotlin.math.min
@@ -82,14 +84,16 @@ class TextMatrix {
     fun buildMatrix() : List<List<String>> {
         val allTimes : List<String> = klock.getAllTimes()
         var matrixList = listOf<List<String>>(listOf())
-        for (words in allTimes) {
+        for (i in 0 .. allTimes.size) {
+            val words = allTimes[i]
             val newMatrixList = mutableListOf<List<String>>()
             for (matrix in matrixList) {
                 val newMatrix = buildVariants(matrix.toTypedArray(), words.split(' ').toTypedArray())
                 newMatrixList.addAll(newMatrix)
             }
             matrixList = filterShortestVariants(newMatrixList)
-            logVariants(matrixList)
+            val filename = String.format("log/matrix%03d.log", i)
+            logVariants(matrixList, File(filename))
         }
         return matrixList
     }
@@ -110,9 +114,13 @@ class TextMatrix {
         return filtered
     }
 
-    fun logVariants(variants: List<List<String>>) {
-        for (x in variants) {
-            LOG.info("{}", x)
+    fun logVariants(variants: List<List<String>>, file: File) {
+        file.parentFile.mkdir()
+        LOG.info("Logging to {}...", file)
+        file.printWriter().use {
+            out -> for (x in variants) {
+                out.println(x)
+            }
         }
     }
 

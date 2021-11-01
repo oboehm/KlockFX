@@ -64,7 +64,6 @@ internal class TextMatrixTest {
         val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei")
         val variants = matrix.buildVariants(one, two)
         LOG.info("{} elements:", variants.size)
-        matrix.logVariants(variants)
         for (x in variants) {
             assertContains(x, one)
             assertContains(x, two)
