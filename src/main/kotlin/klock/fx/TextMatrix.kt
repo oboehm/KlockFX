@@ -19,9 +19,9 @@ package klock.fx
 
 import org.apache.logging.log4j.LogManager
 import java.io.File
-import java.io.PrintWriter
-import java.util.Collections.list
+import java.util.Collections.disjoint
 import java.util.Collections.swap
+import kotlin.math.log
 import kotlin.math.min
 
 class TextMatrix {
@@ -81,21 +81,49 @@ class TextMatrix {
         matrix = matrix + " " + word
     }
 
-    fun buildMatrix() : List<List<String>> {
+    // Hier werden eine Liste mit allen moeglichen Kombinationen ermittelt
+    fun buildMatrixList() : List<List<String>> {
         val allTimes : List<String> = klock.getAllTimes()
         var matrixList = listOf<List<String>>(listOf())
         for (i in 0 .. allTimes.size) {
-            val words = allTimes[i]
-            val newMatrixList = mutableListOf<List<String>>()
-            for (matrix in matrixList) {
-                val newMatrix = buildVariants(matrix.toTypedArray(), words.split(' ').toTypedArray())
-                newMatrixList.addAll(newMatrix)
+            val logfile = File(String.format("log/matrix%03d.log", i))
+            if (logfile.exists()) {
+                LOG.info("Matrix wird aus {} eingelesen ({}).", logfile, allTimes[i])
+                matrixList = readMatrix(logfile)
+            } else {
+                LOG.info("Matrix wird in {} gespeichert ({}).", logfile, allTimes[i])
+                matrixList = buildMatrix(matrixList, allTimes[i])
+                logVariants(matrixList, logfile)
             }
-            matrixList = filterShortestVariants(newMatrixList)
-            val filename = String.format("log/matrix%03d.log", i)
-            logVariants(matrixList, File(filename))
         }
         return matrixList
+    }
+
+    private fun readMatrix(logfile: File): List<List<String>> {
+        val newMatrixList = mutableListOf<List<String>>()
+        logfile.forEachLine {
+                line -> newMatrixList.add(line.subSequence(1, line.lastIndex).split(",").map{it.trim() })
+        }
+        return newMatrixList
+    }
+
+    private fun buildMatrix(
+        matrixList: List<List<String>>,
+        words: String
+    ): List<List<String>> {
+        val newMatrixList = inMatrix(words, matrixList)
+        if (!newMatrixList.empty()) {
+            LOG.debug("{} ist bereits in {} enthalten.", words, matrixList)
+            return newMatrixList
+        }
+        var resultList = matrixList
+        //val newMatrixList = mutableListOf<List<String>>()
+        for (matrix in resultList) {
+            val newMatrix = buildVariants(matrix.toTypedArray(), words.split(' ').toTypedArray())
+            newMatrixList.addAll(newMatrix)
+        }
+        resultList = filterShortestVariants(newMatrixList)
+        return resultList
     }
 
     private fun filterShortestVariants(matrixList: List<List<String>>): List<List<String>> {
@@ -116,7 +144,6 @@ class TextMatrix {
 
     fun logVariants(variants: List<List<String>>, file: File) {
         file.parentFile.mkdir()
-        LOG.info("Logging to {}...", file)
         file.printWriter().use {
             out -> for (x in variants) {
                 out.println(x)

@@ -87,7 +87,7 @@ internal class TextMatrixTest {
 
     @Test
     fun buildMatrix() {
-        val variants = matrix.buildMatrix()
+        val variants = matrix.buildMatrixList()
         LOG.info("{} elements:", variants.size)
         for (x in variants) {
             LOG.info("{}", x)
