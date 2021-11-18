@@ -18,9 +18,8 @@
 package klock.fx
 
 import org.apache.logging.log4j.LogManager
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 internal class TextMatrixTest {
 
@@ -61,21 +60,23 @@ internal class TextMatrixTest {
     @Test
     fun buildVariants() {
         val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
-        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "zwei")
+        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins")
         val variants = matrix.buildVariants(one, two)
         LOG.info("{} elements:", variants.size)
         for (x in variants) {
+            LOG.info("{}", x)
             assertContains(x, one)
             assertContains(x, two)
+            assertNotContains(x, "ein")
         }
         assertFalse(variants.isEmpty())
-        assertTrue(variants.size > 1)
+        assertTrue(variants.size > 0)
     }
 
     private fun assertContains(list: List<String>, parts: Array<String>) {
         var i = 0
         for (word in list) {
-            if (word == parts[i]) {
+            if ((word == parts[i]) || word.contains(parts[i])) {
                 i++
             }
             if (i >= parts.size) {
@@ -83,6 +84,14 @@ internal class TextMatrixTest {
             }
         }
         throw AssertionError(parts[i] + " fehlt in " + list)
+    }
+
+    private fun assertNotContains(list: List<String>, word: String) {
+        for (s in list) {
+            if (s == word) {
+                throw AssertionError("'$word' not expected in " + list)
+            }
+        }
     }
 
     @Test

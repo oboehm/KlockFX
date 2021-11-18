@@ -163,6 +163,7 @@ class TextMatrix {
         var filtered = removeWrongRange(permutations, a)
         filtered = removeWrongRange(filtered, b)
         filtered = removeDoubleElements(filtered)
+        filtered = removeSubstringElements(filtered)
         filtered = removeLongElements(filtered)
         filtered = addHeaderAndFooter(filtered, header.toList(), footer.toList())
         return filtered
@@ -256,6 +257,30 @@ class TextMatrix {
             lastWord = word
         }
         return unduplicate
+    }
+
+    // hier werden benachbarte Teilwoerter wie [..., dreiviertel, viertel, ...]
+    // zu einem Wort zusammengefasst
+    private fun removeSubstringElements(variants: List<List<String>>): List<List<String>> {
+        val shortened = mutableListOf<List<String>>()
+        for (x in variants) {
+            val unduplicate = removeSubstrings(x)
+            if (!shortened.contains(unduplicate)) {
+                shortened.add(unduplicate)
+            }
+        }
+        return shortened
+    }
+
+    private fun removeSubstrings(x: List<String>): List<String> {
+        val reduced = mutableListOf<String>()
+        for (i in 1 .. x.size-1) {
+            if (!x[i].contains(x[i-1])) {
+                reduced.add(x[i-1])
+            }
+        }
+        reduced.add(x.last())
+        return reduced
     }
 
     private fun removeWrongRange(allPerms: List<List<String>>, a: Array<String>): List<List<String>> {
