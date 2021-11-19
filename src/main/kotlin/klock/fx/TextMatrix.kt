@@ -19,6 +19,8 @@ package klock.fx
 
 import org.apache.logging.log4j.LogManager
 import java.io.File
+import java.io.PrintWriter
+import java.util.Collections.list
 import java.util.Collections.disjoint
 import java.util.Collections.swap
 import kotlin.math.log
@@ -112,7 +114,7 @@ class TextMatrix {
         words: String
     ): List<List<String>> {
         val newMatrixList = inMatrix(words, matrixList)
-        if (!newMatrixList.empty()) {
+        if (!newMatrixList.isEmpty()) {
             LOG.debug("{} ist bereits in {} enthalten.", words, matrixList)
             return newMatrixList
         }
@@ -124,6 +126,19 @@ class TextMatrix {
         }
         resultList = filterShortestVariants(newMatrixList)
         return resultList
+    }
+
+    // Hier schauen wir nach, ob die Woerter in "words" bereits in matrixList
+    // vorhanden sind
+    private fun inMatrix(words: String, matrixList: List<List<String>>): MutableList<List<String>> {
+        val newMatrixList = mutableListOf<List<String>>()
+        val wordList : Array<String> = words.split(" ").toTypedArray()
+        for(matrix in matrixList) {
+            if (inCorrectRange(matrix, wordList)) {
+                newMatrixList.add(matrix)
+            }
+        }
+        return newMatrixList
     }
 
     private fun filterShortestVariants(matrixList: List<List<String>>): List<List<String>> {
