@@ -35,11 +35,20 @@ class TextMatrix {
     //private var matrix = ""
 
     fun getMatrix(size: Dimension) : Array<String> {
-        var m = emptyArray<String>()
-        val text = TextMatrix::class.java.getResource("matrix01x89.txt").readText(Charsets.UTF_8).apply {
-            m = split('\n').toTypedArray()
+        val ratio: Int = size.width / size.height
+        if (ratio > 40) {
+            return getMatrix("matrix01x89.txt")
+        } else if (ratio > 15) {
+            return getMatrix("matrix02x45.txt")
+        } else {
+            return getMatrix("matrix03x30.txt")
         }
-        return m
+    }
+
+    private fun getMatrix(resource: String) : Array<String> {
+        TextMatrix::class.java.getResource(resource).readText(Charsets.UTF_8).apply {
+            return split('\n').toTypedArray()
+        }
     }
 
     fun getWords() : Set<String> {

@@ -37,7 +37,13 @@ internal class TextMatrixTest {
     @Test
     fun getMatrix() {
         val m = matrix.getMatrix(Dimension(89, 1))
-        assertFalse(m.isEmpty())
+        assertEquals(1, m.size)
+    }
+
+    @Test
+    fun getMatrixTwoDim() {
+        val m = matrix.getMatrix(Dimension(45, 2))
+        assertEquals(2, m.size)
     }
 
 //    @Test
