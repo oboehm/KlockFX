@@ -28,13 +28,12 @@ import java.util.Collections.swap
 import kotlin.math.log
 import kotlin.math.min
 
-class TextMatrix {
+class TextMatrix(val size: Dimension = Dimension(10, 10)) {
 
     val LOG = LogManager.getLogger()
     private val klock = TextKlock
-    //private var matrix = ""
 
-    fun getMatrix(size: Dimension) : Array<String> {
+    fun getMatrix() : Array<String> {
         val ratio: Int = size.width / size.height
         if (ratio > 40) {
             return getMatrix("matrix01x89.txt")
@@ -46,6 +45,7 @@ class TextMatrix {
     }
 
     private fun getMatrix(resource: String) : Array<String> {
+        LOG.debug("Matrix wird aus Resource '{}' ausgelesen.", resource)
         TextMatrix::class.java.getResource(resource).readText(Charsets.UTF_8).apply {
             return split('\n').toTypedArray()
         }

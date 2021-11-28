@@ -25,10 +25,10 @@ import java.awt.Dimension
 internal class TextMatrixTest {
 
     val LOG = LogManager.getLogger()
-    val matrix = TextMatrix()
 
     @Test
     fun getKlock() {
+        val matrix = TextMatrix()
         val words = matrix.getWords()
         assertTrue(words.size > 12)
         LOG.info("words = {}", words)
@@ -36,13 +36,15 @@ internal class TextMatrixTest {
 
     @Test
     fun getMatrix() {
-        val m = matrix.getMatrix(Dimension(89, 1))
+        val matrix = TextMatrix(Dimension(89, 1))
+        val m = matrix.getMatrix()
         assertEquals(1, m.size)
     }
 
     @Test
     fun getMatrixTwoDim() {
-        val m = matrix.getMatrix(Dimension(45, 2))
+        val matrix = TextMatrix(Dimension(45, 2))
+        val m = matrix.getMatrix()
         assertEquals(2, m.size)
     }
 
