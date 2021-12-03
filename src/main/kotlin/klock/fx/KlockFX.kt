@@ -5,10 +5,9 @@ import javafx.application.Application.launch
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
-import javafx.scene.control.Label
 import javafx.scene.layout.Pane
-import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
+import javafx.stage.Screen
 import javafx.stage.Stage
 
 
@@ -19,32 +18,18 @@ fun main(args: Array<String>) {
 class KlockFX : Application() {
 
     override fun start(stage: Stage) {
-        createScene(stage);
+        createScene(stage)
         stage.title = "KlockFX"
         stage.isFullScreen = true
         stage.show()
     }
-//    override fun start(stage: Stage) {
-//        val root = StackPane()
-//        root.children.add(label)
-//        val scene = Scene(root, 200.0, 200.0)
-//        stage.title = "KlockFX"
-//        stage.scene = scene
-//        stage.isFullScreen = true
-//        stage.show()
-//    }
 
     override fun stop() {}
 
     private fun createScene(stage: Stage) {
-        val width: Double = 400.0
-        val height: Double = 300.0
-        // Create the Canvas
-        // Create the Canvas
-        val canvas = Canvas(width, height)
-        // Get the graphics context of the canvas
-        // Get the graphics context of the canvas
-        val gc: GraphicsContext = canvas.getGraphicsContext2D()
+        val size = Screen.getPrimary().bounds
+        val canvas = Canvas(size.width, size.height)
+        val gc: GraphicsContext = canvas.graphicsContext2D
         // Set line width
         // Set line width
         gc.lineWidth = 1.0
@@ -81,12 +66,13 @@ class KlockFX : Application() {
         // Create the Scene
         // Create the Scene
         val scene = Scene(root)
+        scene.fill = Color.BLACK
         // Add the Scene to the Stage
         // Add the Scene to the Stage
-        stage.setScene(scene)
+        stage.scene = scene
         // Set the Title of the Stage
         // Set the Title of the Stage
-        stage.setTitle("Drawing a Text on a Canvas")
+        stage.title = "Drawing a Text on a Canvas"
         // Display the Stage
         // Display the Stage
         //stage.show()
