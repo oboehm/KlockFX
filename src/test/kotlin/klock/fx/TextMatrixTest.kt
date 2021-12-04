@@ -48,76 +48,14 @@ internal class TextMatrixTest {
         assertEquals(2, m.size)
     }
 
-//    @Test
-//    fun getWordsPositioned() {
-//        val weighted = matrix.getWordsPositioned()
-//        assertFalse(weighted.isEmpty())
-//        LOG.info("weighted = {}", weighted)
-//    }
-//
-//    @Test
-//    fun getTimeOneElement() {
-//        val words: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
-//        val times: Set<Array<String>> = setOf(words)
-//        val wordMatrix = matrix.getMatrix(times)
-//        assertEquals("es ist ein Uhr", wordMatrix)
-//    }
-//
-//    //@Test
-//    fun getTimeTwoElements() {
-//        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
-//        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins")
-//        val times: Set<Array<String>> = setOf(one, two)
-//        val wordMatrix = matrix.getMatrix(times)
-//        assertEquals("es ist fuenf nach einsUhr", wordMatrix)
-//    }
-//
-//    @Test
-//    fun buildVariants() {
-//        val one: Array<String> = arrayOf("es", "ist", "ein", "Uhr")
-//        val two: Array<String> = arrayOf("es", "ist", "fuenf", "nach", "eins")
-//        val variants = matrix.buildVariants(one, two)
-//        LOG.info("{} elements:", variants.size)
-//        for (x in variants) {
-//            LOG.info("{}", x)
-//            assertContains(x, one)
-//            assertContains(x, two)
-//            assertNotContains(x, "ein")
-//        }
-//        assertFalse(variants.isEmpty())
-//        assertTrue(variants.size > 0)
-//    }
-//
-//    private fun assertContains(list: List<String>, parts: Array<String>) {
-//        var i = 0
-//        for (word in list) {
-//            if ((word == parts[i]) || word.contains(parts[i])) {
-//                i++
-//            }
-//            if (i >= parts.size) {
-//                return
-//            }
-//        }
-//        throw AssertionError(parts[i] + " fehlt in " + list)
-//    }
-//
-//    private fun assertNotContains(list: List<String>, word: String) {
-//        for (s in list) {
-//            if (s == word) {
-//                throw AssertionError("'$word' not expected in " + list)
-//            }
-//        }
-//    }
-//
-//    @Test
-//    fun buildMatrix() {
-//        val variants = matrix.buildMatrixList()
-//        LOG.info("{} elements:", variants.size)
-//        for (x in variants) {
-//            LOG.info("{}", x)
-//        }
-//        assertFalse(variants.isEmpty())
-//        assertTrue(variants.size > 1)
-//    }
+    @Test
+    fun noBlanksInMatrix() {
+        val matrix = TextMatrix(Dimension(3440, 1440))
+        val m = matrix.getMatrix()
+        for (line in m) {
+            assertFalse(line.contains(' '), "blank in '$line'")
+            LOG.info(line)
+        }
+    }
 
 }
