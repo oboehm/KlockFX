@@ -26,6 +26,9 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
     val LOG = LogManager.getLogger()
     private val klock = TextKlock
 
+    constructor(width: Double, height: Double) :
+            this(Dimension(width.toInt(), height.toInt()))
+
     fun getMatrix() : Array<String> {
         val ratio: Int = size.width / size.height
         if (ratio > 40) {

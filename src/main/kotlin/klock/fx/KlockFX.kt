@@ -2,11 +2,11 @@ package klock.fx
 
 import javafx.application.Application
 import javafx.application.Application.launch
+import javafx.scene.Group
 import javafx.scene.Scene
-import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
-import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
+import javafx.scene.text.Font
+import javafx.scene.text.Text
 import javafx.stage.Screen
 import javafx.stage.Stage
 
@@ -16,6 +16,8 @@ fun main(args: Array<String>) {
 }
 
 class KlockFX : Application() {
+
+    lateinit var matrix: TextMatrix
 
     override fun start(stage: Stage) {
         createScene(stage)
@@ -28,54 +30,25 @@ class KlockFX : Application() {
 
     private fun createScene(stage: Stage) {
         val size = Screen.getPrimary().bounds
-        val canvas = Canvas(size.width, size.height)
-        val gc: GraphicsContext = canvas.graphicsContext2D
-        // Set line width
-        // Set line width
-        gc.lineWidth = 1.0
-        // Set fill color
-        // Set fill color
-        gc.fill = Color.BLUE
-
-        // Draw a Text
-
-        // Draw a Text
-        gc.strokeText("This is a stroked Text", 10.0, 50.0)
-        gc.strokeText("This is a stroked Text with Max Width 300 px", 10.0, 100.0, 300.0)
-        // Draw a filled Text
-        // Draw a filled Text
-        gc.fillText("This is a filled Text", 10.0, 150.0)
-        gc.fillText("This is a filled Text with Max Width 400 px", 10.0, 200.0, 400.0)
-
-        // Create the Pane
-        // Create the Pane
-        val root = Pane()
-        // Set the Style-properties of the Pane
-        // Set the Style-properties of the Pane
-        root.style = "-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;"
-
-        // Add the Canvas to the Pane
-
-        // Add the Canvas to the Pane
-        root.children.add(canvas)
-        // Create the Scene
-        // Create the Scene
-        val scene = Scene(root)
+        matrix = TextMatrix(size.width, size.height)
+        val m = matrix.getMatrix()
+        val dh = size.height / (m.size + 1)
+        val topMargin = dh / 2
+        val fontsize = dh / 2
+        val textgroup = Group()
+        for (y in 0 until m.size) {
+            val text = Text()
+            text.font = Font.font("Lucidas Sans Unicode", fontsize)
+            text.fill = Color.DARKGRAY
+            text.text = m[y]
+            text.x = 10.0
+            text.y = topMargin + y * dh
+            textgroup.children.add(text)
+        }
+        val scene = Scene(textgroup)
         scene.fill = Color.BLACK
-        // Add the Scene to the Stage
-        // Add the Scene to the Stage
         stage.scene = scene
-        // Set the Title of the Stage
-        // Set the Title of the Stage
         stage.title = "Drawing a Text on a Canvas"
-        // Display the Stage
-        // Display the Stage
-        //stage.show()
     }
 
 }
