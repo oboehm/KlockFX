@@ -36,7 +36,7 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
         } else if (ratio > 15) {
             return getMatrix("matrix02x45.txt")
         } else if (ratio > 8) {
-            return getMatrix("matrix03x30.txt")
+            return getMatrix("matrix03x31.txt")
         } else if (ratio > 6){
             return getMatrix("matrix04x24.txt")
         } else {

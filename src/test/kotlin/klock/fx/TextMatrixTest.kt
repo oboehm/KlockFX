@@ -60,13 +60,34 @@ internal class TextMatrixTest {
 
     @Test
     fun testMatrix01() {
-        val lines = TextMatrix(Dimension(90, 1)).getMatrix()
-        assertEquals(1, lines.size)
+        assertAllTimesIn(TextMatrix(Dimension(90, 1)).getMatrix())
+    }
+
+    @Test
+    fun testMatrix02() {
+        assertAllTimesIn(TextMatrix(Dimension(45, 2)).getMatrix())
+    }
+
+    @Test
+    fun testMatrix03() {
+        assertAllTimesIn(TextMatrix(Dimension(30, 3)).getMatrix())
+    }
+
+    @Test
+    fun testMatrix04() {
+        assertAllTimesIn(TextMatrix(Dimension(24, 4)).getMatrix())
+    }
+
+    @Test
+    fun testMatrix05() {
+        assertAllTimesIn(TextMatrix(Dimension(22, 5)).getMatrix())
+    }
+
+    private fun assertAllTimesIn(lines: Array<String>) {
+        val longline = lines.joinToString(" ")
         val klock = TextKlock
-        LOG.info(lines[0])
         for (time in klock.getAllTimes()) {
-            LOG.info(time)
-            assertTimeIn(time.uppercase(), lines[0])
+            assertTimeIn(time.uppercase(), longline)
         }
     }
 
