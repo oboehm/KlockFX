@@ -8,6 +8,7 @@ import javafx.scene.Scene
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import javafx.scene.text.TextAlignment
 import javafx.stage.Screen
 import javafx.stage.Stage
 import java.lang.Double.min
@@ -61,8 +62,9 @@ class KlockFX : Application() {
             val text = Text()
             text.font = Font.font("Lucidas Sans Unicode", fontsize)
             text.fill = Color.DARKGRAY
+            text.textAlignment = TextAlignment.CENTER
             text.text = chars[x].toString()
-            text.x = rightMargin + x * dx
+            text.x = rightMargin + x * dx + (dx - text.layoutBounds.width) / 2
             text.y = topMargin + y * dy
             linegroup.children.add(text)
         }
