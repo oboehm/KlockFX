@@ -2,6 +2,7 @@ package klock.fx
 
 import javafx.application.Application
 import javafx.application.Application.launch
+import javafx.geometry.Rectangle2D
 import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.paint.Color
@@ -9,6 +10,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.stage.Screen
 import javafx.stage.Stage
+import java.lang.Double.min
 
 
 fun main(args: Array<String>) {
@@ -32,23 +34,39 @@ class KlockFX : Application() {
         val size = Screen.getPrimary().bounds
         matrix = TextMatrix(size.width, size.height)
         val m = matrix.getMatrix()
-        val dh = size.height / (m.size + 1)
-        val topMargin = dh / 2
-        val fontsize = dh / 2
         val textgroup = Group()
         for (y in 0 until m.size) {
+            addText(y, m, size, textgroup)
+        }
+        stage.scene = Scene(textgroup)
+        stage.scene.fill = Color.BLACK
+        stage.title = "Drawing a Text on a Canvas"
+    }
+
+    private fun addText(
+        y: Int,
+        lines: Array<String>,
+        size: Rectangle2D,
+        textgroup: Group
+    ) {
+        val chars = lines[y].toCharArray()
+        var dy = size.height / lines.size
+        val dx = size.width / chars.size
+        val fontsize = min(dy, dx)
+        dy = (size.height - fontsize) / (lines.size - 1)
+        val topMargin = fontsize
+        val rightMargin = 0.0
+        val linegroup = Group()
+        for (x in 0 until chars.size) {
             val text = Text()
             text.font = Font.font("Lucidas Sans Unicode", fontsize)
             text.fill = Color.DARKGRAY
-            text.text = m[y]
-            text.x = 10.0
-            text.y = topMargin + y * dh
-            textgroup.children.add(text)
+            text.text = chars[x].toString()
+            text.x = rightMargin + x * dx
+            text.y = topMargin + y * dy
+            linegroup.children.add(text)
         }
-        val scene = Scene(textgroup)
-        scene.fill = Color.BLACK
-        stage.scene = scene
-        stage.title = "Drawing a Text on a Canvas"
+        textgroup.children.add(linegroup)
     }
 
 }
