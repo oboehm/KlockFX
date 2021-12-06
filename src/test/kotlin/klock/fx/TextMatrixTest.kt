@@ -58,4 +58,26 @@ internal class TextMatrixTest {
         }
     }
 
+    @Test
+    fun testMatrix01() {
+        val lines = TextMatrix(Dimension(90, 1)).getMatrix()
+        assertEquals(1, lines.size)
+        val klock = TextKlock
+        LOG.info(lines[0])
+        for (time in klock.getAllTimes()) {
+            LOG.info(time)
+            assertTimeIn(time.uppercase(), lines[0])
+        }
+    }
+
+    private fun assertTimeIn(time: String, line: String) {
+        val words = time.split(' ')
+        var i = 0
+        for (w in words) {
+            i = line.indexOf(w, i)
+            assertTrue(i >= 0, "'$w' in '$time' not part of '$line'")
+            i = i + w.length + 1
+        }
+    }
+
 }

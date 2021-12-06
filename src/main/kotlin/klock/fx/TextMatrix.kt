@@ -32,7 +32,7 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
     fun getMatrix() : Array<String> {
         val ratio: Int = size.width / size.height
         if (ratio > 40) {
-            return getMatrix("matrix01x89.txt")
+            return getMatrix("matrix01x90.txt")
         } else if (ratio > 15) {
             return getMatrix("matrix02x45.txt")
         } else if (ratio > 8) {
