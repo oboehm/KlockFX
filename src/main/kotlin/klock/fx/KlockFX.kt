@@ -24,7 +24,6 @@ class KlockFX : Application() {
 
     override fun start(stage: Stage) {
         createScene(stage)
-        stage.title = "KlockFX"
         stage.isFullScreen = true
         stage.show()
     }
@@ -41,7 +40,7 @@ class KlockFX : Application() {
         }
         stage.scene = Scene(textgroup)
         stage.scene.fill = Color.BLACK
-        stage.title = "Drawing a Text on a Canvas"
+        stage.title = "KlockFX"
     }
 
     private fun addText(

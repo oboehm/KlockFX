@@ -27,14 +27,6 @@ internal class TextMatrixTest {
     val LOG = LogManager.getLogger()
 
     @Test
-    fun getKlock() {
-        val matrix = TextMatrix()
-        val words = matrix.getWords()
-        assertTrue(words.size > 12)
-        LOG.info("words = {}", words)
-    }
-
-    @Test
     fun getMatrix() {
         val matrix = TextMatrix(Dimension(89, 1))
         val m = matrix.getMatrix()
@@ -99,6 +91,14 @@ internal class TextMatrixTest {
             assertTrue(i >= 0, "'$w' in '$time' not part of '$line'")
             i = i + w.length + 1
         }
+    }
+
+    @Test
+    fun getTimeMatrix() {
+        val matrix = TextMatrix(Dimension(90, 1))
+        val m = matrix.getTimeMatrix()
+        assertEquals(1, m.size)
+        LOG.info(m[0])
     }
 
 }
