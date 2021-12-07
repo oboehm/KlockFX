@@ -42,10 +42,11 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
         val timeMatrix = mutableListOf<String>()
         val words = klock.getTime().uppercase().split(' ')
         var n = 0
+        var i = 0
         for (m in matrix) {
             var line = " ".repeat(m.length)
             while (n < words.size) {
-                val i = m.indexOf(words[n])
+                i = m.indexOf(words[n], i)
                 if (i < 0) {
                     break
                 }

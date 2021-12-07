@@ -95,10 +95,30 @@ internal class TextMatrixTest {
 
     @Test
     fun getTimeMatrix() {
+        val klock = TextKlock
         val matrix = TextMatrix(Dimension(90, 1))
+        val t0 = klock.getTime()
         val m = matrix.getTimeMatrix()
-        assertEquals(1, m.size)
+        if (t0 == klock.getTime()) {
+            assertTimeIn(t0.uppercase(), m[0])
+        }
         LOG.info(m[0])
+    }
+
+    @Test
+    fun getAllTimeMatrix() {
+        val klock = TextKlock
+        val t0 = klock.getTime()
+        for (y in 2 .. 10) {
+            val matrix = TextMatrix(Dimension(100 / y, y))
+            val m = matrix.getTimeMatrix()
+            if (t0 == klock.getTime()) {
+                assertTimeIn(t0.uppercase(), m.joinToString(" "))
+            }
+            for (line in m) {
+                LOG.debug(line)
+            }
+        }
     }
 
 }
