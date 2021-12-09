@@ -4,6 +4,7 @@ import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.geometry.Rectangle2D
 import javafx.scene.Group
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -11,6 +12,7 @@ import javafx.scene.text.Text
 import javafx.scene.text.TextAlignment
 import javafx.stage.Screen
 import javafx.stage.Stage
+import org.apache.logging.log4j.LogManager
 import java.lang.Double.min
 
 
@@ -20,11 +22,13 @@ fun main(args: Array<String>) {
 
 class KlockFX : Application() {
 
+    private val log = LogManager.getLogger()
     lateinit var matrix: TextMatrix
 
     override fun start(stage: Stage) {
         createScene(stage)
         stage.isFullScreen = true
+        startKlock(stage)
         stage.show()
     }
 
@@ -68,6 +72,31 @@ class KlockFX : Application() {
             linegroup.children.add(text)
         }
         textgroup.children.add(linegroup)
+    }
+
+    private fun startKlock(stage: Stage) {
+        val parent = stage.scene.root
+        val children : List<Node> = parent.childrenUnmodifiable
+        val time = matrix.getTimeMatrix()
+        for (i in 0 .. children.size-1) {
+            val group = children[i] as Group
+            val timeRow = time[i]
+            highlight(group, timeRow)
+        }
+        log.info("{}", children)
+    }
+
+    private fun highlight(group: Group, timeRow: String) {
+        val children : List<Node> = group.children
+        val letters = timeRow.toCharArray()
+        for (i in (0 .. children.size-1)) {
+            val text : Text = children[i] as Text
+            if (letters[i].isWhitespace()) {
+                text.fill = Color.DARKGRAY
+            } else {
+                text.fill = Color.WHITE
+            }
+        }
     }
 
 }
