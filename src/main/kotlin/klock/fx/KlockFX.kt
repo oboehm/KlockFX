@@ -1,5 +1,7 @@
 package klock.fx
 
+import javafx.animation.AnimationTimer
+import javafx.animation.Timeline
 import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.geometry.Rectangle2D
@@ -15,6 +17,7 @@ import javafx.stage.Stage
 import org.apache.logging.log4j.LogManager
 import java.lang.Double.min
 
+internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.15)
 
 fun main(args: Array<String>) {
     launch(KlockFX::class.java)
@@ -28,6 +31,8 @@ class KlockFX : Application() {
     override fun start(stage: Stage) {
         createScene(stage)
         stage.isFullScreen = true
+        val timer = KlockTimer()
+        timer.start()
         startKlock(stage)
         stage.show()
     }
@@ -64,7 +69,7 @@ class KlockFX : Application() {
         for (x in 0 until chars.size) {
             val text = Text()
             text.font = Font.font("Lucidas Sans Unicode", fontsize)
-            text.fill = Color.DARKGRAY
+            text.fill = COLOR_DARK
             text.textAlignment = TextAlignment.CENTER
             text.text = chars[x].toString()
             text.x = rightMargin + x * dx + (dx - text.layoutBounds.width) / 2
@@ -92,11 +97,20 @@ class KlockFX : Application() {
         for (i in (0 .. children.size-1)) {
             val text : Text = children[i] as Text
             if (letters[i].isWhitespace()) {
-                text.fill = Color.DARKGRAY
+                text.fill = COLOR_DARK
             } else {
                 text.fill = Color.WHITE
             }
         }
+    }
+
+
+    inner class KlockTimer : AnimationTimer() {
+
+        override fun handle(now: Long) {
+            log.info("tick")
+        }
+
     }
 
 }
