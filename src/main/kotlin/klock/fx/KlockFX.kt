@@ -1,7 +1,6 @@
 package klock.fx
 
 import javafx.animation.AnimationTimer
-import javafx.animation.Timeline
 import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.geometry.Rectangle2D
@@ -27,19 +26,19 @@ class KlockFX : Application() {
 
     private val log = LogManager.getLogger()
     lateinit var matrix: TextMatrix
+    lateinit var stage : Stage
 
-    override fun start(stage: Stage) {
-        createScene(stage)
+    override fun start(s: Stage) {
+        stage = s
+        createScene()
         stage.isFullScreen = true
         val timer = KlockTimer()
         timer.start()
-        startKlock(stage)
-        stage.show()
     }
 
     override fun stop() {}
 
-    private fun createScene(stage: Stage) {
+    private fun createScene() {
         val size = Screen.getPrimary().bounds
         matrix = TextMatrix(size.width, size.height)
         val m = matrix.getMatrix()
@@ -79,7 +78,7 @@ class KlockFX : Application() {
         textgroup.children.add(linegroup)
     }
 
-    private fun startKlock(stage: Stage) {
+    private fun showKlock() {
         val parent = stage.scene.root
         val children : List<Node> = parent.childrenUnmodifiable
         val time = matrix.getTimeMatrix()
@@ -88,7 +87,8 @@ class KlockFX : Application() {
             val timeRow = time[i]
             highlight(group, timeRow)
         }
-        log.info("{}", children)
+        log.debug("{}", children)
+        stage.show()
     }
 
     private fun highlight(group: Group, timeRow: String) {
@@ -107,8 +107,14 @@ class KlockFX : Application() {
 
     inner class KlockTimer : AnimationTimer() {
 
+        var t0 : Long = System.nanoTime()
+
         override fun handle(now: Long) {
-            log.info("tick")
+            if ((now - t0) > 1_000_000_000L) {
+                log.info("tick {}", now)
+                t0 = now
+                showKlock()
+            }
         }
 
     }
