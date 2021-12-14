@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager
 import java.lang.Double.min
 
 internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.15)
+internal val COLOR_LIGHT : Color = Color.WHITESMOKE
 
 fun main(args: Array<String>) {
     launch(KlockFX::class.java)
@@ -32,6 +33,7 @@ class KlockFX : Application() {
         stage = s
         createScene()
         stage.isFullScreen = true
+        showKlock()
         val timer = KlockTimer()
         timer.start()
     }
@@ -99,7 +101,7 @@ class KlockFX : Application() {
             if (letters[i].isWhitespace()) {
                 text.fill = COLOR_DARK
             } else {
-                text.fill = Color.WHITE
+                text.fill = COLOR_LIGHT
             }
         }
     }
@@ -110,7 +112,7 @@ class KlockFX : Application() {
         var t0 : Long = System.nanoTime()
 
         override fun handle(now: Long) {
-            if ((now - t0) > 1_000_000_000L) {
+            if ((now - t0) > 5_000_000_000L) {
                 log.info("tick {}", now)
                 t0 = now
                 showKlock()

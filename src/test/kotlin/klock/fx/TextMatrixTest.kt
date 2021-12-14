@@ -75,6 +75,11 @@ internal class TextMatrixTest {
         assertAllTimesIn(TextMatrix(Dimension(22, 5)).getMatrix())
     }
 
+    @Test
+    fun testMatrix06() {
+        assertAllTimesIn(TextMatrix(Dimension(16, 6)).getMatrix())
+    }
+
     private fun assertAllTimesIn(lines: Array<String>) {
         val longline = lines.joinToString(" ")
         val klock = TextKlock
