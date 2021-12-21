@@ -52,32 +52,43 @@ internal class TextMatrixTest {
 
     @Test
     fun testMatrix01() {
-        assertAllTimesIn(TextMatrix(Dimension(90, 1)).getMatrix())
+        assertMatrix(90, 1)
     }
 
     @Test
     fun testMatrix02() {
-        assertAllTimesIn(TextMatrix(Dimension(45, 2)).getMatrix())
+        assertMatrix(45, 2)
     }
 
     @Test
     fun testMatrix03() {
-        assertAllTimesIn(TextMatrix(Dimension(30, 3)).getMatrix())
+        assertMatrix(31, 3)
     }
 
     @Test
     fun testMatrix04() {
-        assertAllTimesIn(TextMatrix(Dimension(24, 4)).getMatrix())
+        assertMatrix(24, 4)
     }
 
     @Test
     fun testMatrix05() {
-        assertAllTimesIn(TextMatrix(Dimension(22, 5)).getMatrix())
+        assertMatrix(22, 5)
     }
 
     @Test
     fun testMatrix06() {
-        assertAllTimesIn(TextMatrix(Dimension(16, 6)).getMatrix())
+        assertMatrix(16,6)
+    }
+
+    @Test
+    fun testMatrix07() {
+        assertMatrix(16, 7)
+    }
+
+    private fun assertMatrix(width: Int, height: Int) {
+        val matrix = TextMatrix(Dimension(width, height)).getMatrix()
+        assertEquals(height, matrix.size)
+        assertAllTimesIn(matrix)
     }
 
     private fun assertAllTimesIn(lines: Array<String>) {
@@ -107,6 +118,15 @@ internal class TextMatrixTest {
         if (t0 == klock.getTime()) {
             assertTimeIn(t0.uppercase(), m[0])
         }
+        LOG.info(m[0])
+    }
+
+    @Test
+    fun testZehnNachAcht() {
+        val matrix = TextMatrix(Dimension(90, 1))
+        val t0 = "ES IST ZEHN NACH ACHT"
+        val m = matrix.getTimeMatrix(t0)
+        assertTimeIn(t0.uppercase(), m[0])
         LOG.info(m[0])
     }
 

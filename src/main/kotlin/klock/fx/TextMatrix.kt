@@ -39,8 +39,12 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
     }
 
     fun getTimeMatrix() : Array<String> {
+        return getTimeMatrix(klock.getTime())
+    }
+
+    fun getTimeMatrix(time: String) : Array<String> {
         val timeMatrix = mutableListOf<String>()
-        val words = klock.getTime().uppercase().split(' ')
+        val words = time.uppercase().split(' ')
         var n = 0
         var i = 0
         for (m in matrix) {
@@ -50,8 +54,10 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
                 if (i < 0) {
                     break
                 }
-                line = line.replaceRange(i, i+words[n].length, words[n])
+                val endIndex = i + words[n].length
+                line = line.replaceRange(i, endIndex, words[n])
                 n++
+                i = endIndex
             }
             timeMatrix.add(line)
         }
@@ -59,19 +65,21 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
     }
 
     private fun initMatrix() : Array<String> {
-        val ratio: Int = size.width / size.height
+        val ratio: Double = size.width.toDouble() / size.height.toDouble()
         if (ratio > 40) {
             return initMatrix("matrix01x90.txt")
         } else if (ratio > 15) {
             return initMatrix("matrix02x45.txt")
         } else if (ratio > 8) {
             return initMatrix("matrix03x31.txt")
-        } else if (ratio > 6){
+        } else if (ratio > 5){
             return initMatrix("matrix04x24.txt")
         } else if (ratio > 4){
             return initMatrix("matrix05x22.txt")
-        } else {
+        } else if (ratio > 2.5){
             return initMatrix("matrix06x16.txt")
+        } else {
+            return initMatrix("matrix07x16.txt")
         }
     }
 
