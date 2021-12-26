@@ -63,7 +63,7 @@ class KlockFX : Application() {
         var dy = size.height / lines.size
         val dx = size.width / chars.size
         val fontsize = min(dy, dx)
-        dy = (size.height - fontsize) / (lines.size - 1)
+        dy = (size.height - fontsize - 2) / (lines.size - 1)
         val topMargin = fontsize
         val rightMargin = 0.0
         val linegroup = Group()
