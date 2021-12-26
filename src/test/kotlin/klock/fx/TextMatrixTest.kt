@@ -90,6 +90,11 @@ internal class TextMatrixTest {
         assertMatrix(13, 8)
     }
 
+    @Test
+    fun testMatrix09() {
+        assertMatrix(12, 9)
+    }
+
     private fun assertMatrix(width: Int, height: Int) {
         val matrix = TextMatrix(Dimension(width, height)).getMatrix()
         assertEquals(height, matrix.size)
