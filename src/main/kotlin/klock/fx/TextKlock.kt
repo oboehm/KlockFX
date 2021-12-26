@@ -19,14 +19,21 @@ package klock.fx
 
 import java.time.LocalTime
 
-object TextKlock {
+/**
+ * Gibt die aktuelle Zeit in Textform an. Z.B. in "es ist vier Uhr".
+ * Mit dem Default-Konstrutor wird 2:45 als "es ist dreiviertel drei"
+ * angegeben. In manchen Laendern wird "es ist viertel vor drei"
+ * bevorzugt. In diesem Fall ruft man als Konstruktor
+ * 'TextKlock("viertel vor")' auf.
+ */
+class TextKlock(val dreiviertel: String = "dreiviertel") {
 
     fun getTime(): String {
         return getTime(LocalTime.now())
     }
 
     fun getTime(time: LocalTime): String {
-        val hour = (time.hour-1) % 12 + 1
+        val hour = (time.hour - 1) % 12 + 1
         return when (time.minute / 5) {
             1 -> "es ist f\u00fcnf nach " + toString(hour)
             2 -> "es ist zehn nach " + toString(hour)
@@ -36,12 +43,13 @@ object TextKlock {
             6 -> "es ist halb " + toString(hour + 1)
             7 -> "es ist f\u00fcnf nach halb " + toString(hour + 1)
             8 -> "es ist zehn nach halb " + toString(hour + 1)
-            9 -> "es ist dreiviertel " + toString(hour + 1)
+            9 -> "es ist $dreiviertel " + toString(hour + 1)
             10 -> "es ist zehn vor " + toString(hour + 1)
             11 -> "es ist f\u00fcnf vor " + toString(hour + 1)
             else -> String.format(
                 "es ist %s Uhr",
-                (if (hour == 1) "ein" else toString(hour)))
+                (if (hour == 1) "ein" else toString(hour))
+            )
         }
     }
 

@@ -98,7 +98,7 @@ internal class TextMatrixTest {
 
     private fun assertAllTimesIn(lines: Array<String>) {
         val longline = lines.joinToString(" ")
-        val klock = TextKlock
+        val klock = TextKlock()
         for (time in klock.getAllTimes()) {
             assertTimeIn(time.uppercase(), longline)
         }
@@ -116,7 +116,7 @@ internal class TextMatrixTest {
 
     @Test
     fun getTimeMatrix() {
-        val klock = TextKlock
+        val klock = TextKlock()
         val matrix = TextMatrix(Dimension(90, 1))
         val t0 = klock.getTime()
         val m = matrix.getTimeMatrix()
@@ -137,7 +137,7 @@ internal class TextMatrixTest {
 
     @Test
     fun getAllTimeMatrix() {
-        val klock = TextKlock
+        val klock = TextKlock()
         val t0 = klock.getTime()
         for (y in 2 .. 10) {
             val matrix = TextMatrix(Dimension(100 / y, y))

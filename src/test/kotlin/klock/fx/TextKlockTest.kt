@@ -19,7 +19,7 @@
 package klock.fx
 
 import org.apache.logging.log4j.LogManager
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalTime
 
@@ -59,31 +59,31 @@ internal class TextKlockTest {
 
     @Test
     fun zehnNachEins() {
-        checkTime("es ist zehn nach eins", 1, 10);
+        checkTime("es ist zehn nach eins", 1, 10)
     }
 
     @Test
     fun dreiviertelEins() {
-        checkTime("es ist dreiviertel eins", 12, 45);
+        checkTime("es ist dreiviertel eins", 12, 45)
     }
 
     private fun checkTime(expected: String, hour: Int, minute: Int) {
         val t = LocalTime.of(hour, minute)
-        val time = TextKlock.getTime(t)
+        val time = TextKlock().getTime(t)
         assertEquals(expected, time)
         LOG.info("{}: {}", t, time)
     }
 
     @Test
     fun getTimeNow() {
-        val clock = TextKlock
+        val clock = TextKlock()
         val time = clock.getTime()
         LOG.info(time)
     }
 
     @Test
     fun getAllTimes() {
-        val words = TextKlock.getAllTimes();
+        val words = TextKlock().getAllTimes()
         assertEquals(144, words.size)
     }
 

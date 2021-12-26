@@ -25,7 +25,7 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
 
     private val LOG = LogManager.getLogger()
     private val matrix: Array<String>
-    private val klock = TextKlock
+    private val klock = TextKlock()
 
     constructor(width: Double, height: Double) :
             this(Dimension(width.toInt(), height.toInt()))
