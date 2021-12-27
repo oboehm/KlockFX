@@ -100,6 +100,11 @@ internal class TextMatrixTest {
         assertMatrix(11, 10, TextKlock("viertel vor"))
     }
 
+    @Test
+    fun testMatrix11() {
+        assertMatrix(11, 11, TextKlock("viertel vor"))
+    }
+
     private fun assertMatrix(width: Int, height: Int) {
         assertMatrix(width, height, TextKlock())
     }
