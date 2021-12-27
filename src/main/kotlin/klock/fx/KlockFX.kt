@@ -18,14 +18,16 @@ import java.lang.Double.min
 
 internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.15)
 internal val COLOR_LIGHT : Color = Color.WHITESMOKE
+internal val log = LogManager.getLogger()
 
 fun main(args: Array<String>) {
+    log.info("KlockFX wird gestartet...")
     launch(KlockFX::class.java)
+    log.info("...KlockFX wird beendet.")
 }
 
 class KlockFX : Application() {
 
-    private val log = LogManager.getLogger()
     lateinit var matrix: TextMatrix
     lateinit var stage : Stage
 
@@ -36,9 +38,12 @@ class KlockFX : Application() {
         showKlock()
         val timer = KlockTimer()
         timer.start()
+        log.info("{} ist fuer {} gestartet.", timer, s)
     }
 
-    override fun stop() {}
+    override fun stop() {
+        log.info("{} wird gestoppt.", this)
+    }
 
     private fun createScene() {
         val size = Screen.getPrimary().bounds
@@ -113,7 +118,7 @@ class KlockFX : Application() {
 
         override fun handle(now: Long) {
             if ((now - t0) > 5_000_000_000L) {
-                log.info("tick {}", now)
+                log.debug("tick {}", now)
                 t0 = now
                 showKlock()
             }
