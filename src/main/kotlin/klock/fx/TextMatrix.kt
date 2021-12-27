@@ -82,8 +82,10 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
             return initMatrix("matrix07x16.txt")
         } else if (ratio > 1.5) {
             return initMatrix("matrix08x13.txt")
-        } else {
+        } else if (ratio > 1.3) {
             return initMatrix("matrix09x12.txt")
+        } else {
+            return initMatrix("matrix10x11.txt")
         }
     }
 

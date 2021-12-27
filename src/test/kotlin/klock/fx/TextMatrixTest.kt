@@ -95,15 +95,23 @@ internal class TextMatrixTest {
         assertMatrix(12, 9)
     }
 
-    private fun assertMatrix(width: Int, height: Int) {
-        val matrix = TextMatrix(Dimension(width, height)).getMatrix()
-        assertEquals(height, matrix.size)
-        assertAllTimesIn(matrix)
+    @Test
+    fun testMatrix10() {
+        assertMatrix(11, 10, TextKlock("viertel vor"))
     }
 
-    private fun assertAllTimesIn(lines: Array<String>) {
+    private fun assertMatrix(width: Int, height: Int) {
+        assertMatrix(width, height, TextKlock())
+    }
+
+    private fun assertMatrix(width: Int, height: Int, klock: TextKlock) {
+        val matrix = TextMatrix(Dimension(width, height)).getMatrix()
+        assertEquals(height, matrix.size)
+        assertAllTimesIn(matrix, klock)
+    }
+
+    private fun assertAllTimesIn(lines: Array<String>, klock: TextKlock) {
         val longline = lines.joinToString(" ")
-        val klock = TextKlock()
         for (time in klock.getAllTimes()) {
             assertTimeIn(time.uppercase(), longline)
         }
