@@ -23,7 +23,7 @@ import java.util.*
 
 class TextMatrix(val size: Dimension = Dimension(10, 10)) {
 
-    private val LOG = LogManager.getLogger()
+    private val LOG = LogManager.getLogger(TextMatrix::javaClass)
     private val matrix: Array<String>
     private val klock: TextKlock
 

@@ -25,7 +25,7 @@ import java.time.LocalTime
 
 internal class TextKlockTest {
 
-    private val LOG = LogManager.getLogger()
+    private val LOG = LogManager.getLogger(TextKlockTest::javaClass)
 
     @Test
     fun elfUhr() {

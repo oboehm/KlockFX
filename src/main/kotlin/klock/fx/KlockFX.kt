@@ -2,7 +2,6 @@ package klock.fx
 
 import javafx.animation.AnimationTimer
 import javafx.application.Application
-import javafx.application.Application.launch
 import javafx.geometry.Rectangle2D
 import javafx.scene.Group
 import javafx.scene.Node
@@ -16,17 +15,20 @@ import javafx.stage.Stage
 import org.apache.logging.log4j.LogManager
 import java.lang.Double.min
 
-internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.15)
+internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.10)
 internal val COLOR_LIGHT : Color = Color.WHITESMOKE
-internal val log = LogManager.getLogger()
-
-fun main(args: Array<String>) {
-    log.info("KlockFX wird gestartet...")
-    launch(KlockFX::class.java)
-    log.info("...KlockFX wird beendet.")
-}
 
 class KlockFX : Application() {
+
+    companion object {
+        val log = LogManager.getLogger(KlockFX::javaClass)
+        @JvmStatic
+        fun main(args: Array<String>) {
+            log.info("KlockFX wird gestartet...")
+            launch(KlockFX::class.java)
+            log.info("...KlockFX wird beendet.")
+        }
+    }
 
     lateinit var matrix: TextMatrix
     lateinit var stage : Stage

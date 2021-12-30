@@ -24,7 +24,7 @@ import java.awt.Dimension
 
 internal class TextMatrixTest {
 
-    val LOG = LogManager.getLogger()
+    val LOG = LogManager.getLogger(TextMatrixTest::javaClass)
 
     @Test
     fun getMatrix() {
