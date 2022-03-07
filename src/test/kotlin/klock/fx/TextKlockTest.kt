@@ -22,6 +22,7 @@ import org.apache.logging.log4j.LogManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalTime
+import kotlin.test.assertTrue
 
 internal class TextKlockTest {
 
@@ -85,6 +86,14 @@ internal class TextKlockTest {
     fun getAllTimes() {
         val words = TextKlock().getAllTimes()
         assertEquals(144, words.size)
+    }
+
+    @Test
+    fun getDeltaTimeInMillis() {
+        val clock = TextKlock()
+        val millis = clock.getDeltaTimeInMillis()
+        assertTrue(millis > 0)
+        LOG.info("millis = {}", millis)
     }
 
 }
