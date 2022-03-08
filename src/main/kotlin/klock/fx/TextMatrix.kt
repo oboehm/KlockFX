@@ -50,6 +50,11 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
         return getTimeMatrix(klock.getTime())
     }
 
+    /**
+     * Der time-String wird in der Matrix hervorgehoben, in dem alle
+     * Zeichen, die nicht zur Anzeige benoetigt werden, durch Leerzeichen
+     * ersetzt werden.
+     */
     fun getTimeMatrix(time: String) : Array<String> {
         val timeMatrix = mutableListOf<String>()
         val words = time.uppercase().split(' ')

@@ -53,6 +53,13 @@ class TextKlock(val dreiviertel: String = "dreiviertel") {
         }
     }
 
+    /**
+     * Liefert die Zeit seit dem letzten 5-Minuten-Wechsel zurueck.
+     */
+    fun getDeltaTimeInMillis() : Long {
+        return System.currentTimeMillis() % 300_000L
+    }
+
     private fun toString(hour: Int): String {
         val numbers: Array<String> = arrayOf(
             "zw\u00f6lf", "eins", "zwei", "drei", "vier", "f\u00fcnf", "sechs",
