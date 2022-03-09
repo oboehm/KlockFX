@@ -169,4 +169,11 @@ internal class TextMatrixTest {
         }
     }
 
+    @Test
+    fun getTextSize() {
+        val size = Dimension(44, 2)
+        val matrix = TextMatrix(size)
+        assertEquals(size, matrix.getTextSize())
+    }
+
 }

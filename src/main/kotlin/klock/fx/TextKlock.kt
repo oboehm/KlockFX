@@ -54,10 +54,14 @@ class TextKlock(val dreiviertel: String = "dreiviertel") {
     }
 
     /**
-     * Liefert die Zeit seit dem letzten 5-Minuten-Wechsel zurueck.
+     * Liefert den Fortschritt eines 5-Minuten-Abschnitts (Tick) zurueck.
+     *
+     * @param n Anzahl Abschnitte (100%)
+     * @return 0 .. n-1
      */
-    fun getDeltaTimeInMillis() : Long {
-        return System.currentTimeMillis() % 300_000L
+    fun getTickProgress(n: Int) : Long {
+        val delta = System.currentTimeMillis() % 300_000L
+        return delta * n / 300_000L
     }
 
     private fun toString(hour: Int): String {

@@ -88,8 +88,7 @@ class KlockFX : Application() {
     }
 
     private fun showKlock() {
-        val parent = stage.scene.root
-        val children : List<Node> = parent.childrenUnmodifiable
+        val children: List<Node> = getTextGroupNodes()
         val time = matrix.getTimeMatrix()
         for (i in 0 .. children.size-1) {
             val group = children[i] as Group
@@ -97,7 +96,14 @@ class KlockFX : Application() {
             highlight(group, timeRow)
         }
         log.debug("{}", children)
+        showTick()
         stage.show()
+    }
+
+    private fun getTextGroupNodes(): List<Node> {
+        val parent = stage.scene.root
+        val children: List<Node> = parent.childrenUnmodifiable
+        return children
     }
 
     private fun highlight(group: Group, timeRow: String) {
@@ -111,6 +117,29 @@ class KlockFX : Application() {
                 text.fill = COLOR_LIGHT
             }
         }
+    }
+
+    /**
+     * Die Idee hinter showTick ist, dass hierueber der Fortschritt angezeigt
+     * wird. Dazu wird ein Buchstabe immer ausgeblendet. Dies soll auch
+     * verhindern, dass auf einem OLED-Monitor Teil des Bildschirms einbrennt.
+     */
+    private fun showTick() {
+        val children: List<Node> = getTextGroupNodes()
+        val textSize = matrix.getTextSize()
+        val n = textSize.height * textSize.height
+        val i = TextKlock().getTickProgress(n)
+        val y = i % textSize.height
+        val x = i % textSize.width
+        log.info("Zeichen {}/{} wird ausgeblendet.", y, x)
+        val group = children[y.toInt()] as Group
+        downlight(group, x.toInt())
+    }
+
+    private fun downlight(group: Group, x: Int) {
+        val children : List<Node> = group.children
+        val text : Text = children[x] as Text
+        text.fill = Color.BLACK
     }
 
 

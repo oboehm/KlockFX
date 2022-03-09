@@ -89,11 +89,12 @@ internal class TextKlockTest {
     }
 
     @Test
-    fun getDeltaTimeInMillis() {
+    fun getTickProgress() {
         val clock = TextKlock()
-        val millis = clock.getDeltaTimeInMillis()
-        assertTrue(millis > 0)
-        LOG.info("millis = {}", millis)
+        val percent = clock.getTickProgress(100)
+        assertTrue(percent >= 0)
+        assertTrue(percent < 100)
+        LOG.info("percent = {}", percent)
     }
 
 }

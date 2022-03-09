@@ -46,6 +46,12 @@ class TextMatrix(val size: Dimension = Dimension(10, 10)) {
         return matrix
     }
 
+    fun getTextSize() : Dimension {
+        val h = matrix.size
+        val w = matrix[0].length
+        return Dimension(w, h)
+    }
+
     fun getTimeMatrix() : Array<String> {
         return getTimeMatrix(klock.getTime())
     }
