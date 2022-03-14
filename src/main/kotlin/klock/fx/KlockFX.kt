@@ -38,7 +38,9 @@ class KlockFX : Application() {
         createScene()
         stage.isFullScreen = true
         showKlock()
-        val timer = KlockTimer()
+        val dim = matrix.getTextSize()
+        val periodInMillis = 300_000L / (dim.width * dim.height)
+        val timer = KlockTimer(periodInMillis)
         timer.start()
         log.info("{} ist fuer {} gestartet.", timer, s)
     }
@@ -127,9 +129,9 @@ class KlockFX : Application() {
     private fun showTick() {
         val children: List<Node> = getTextGroupNodes()
         val textSize = matrix.getTextSize()
-        val n = textSize.height * textSize.height
+        val n = textSize.height * textSize.width
         val i = TextKlock().getTickProgress(n)
-        val y = i % textSize.height
+        val y = i / textSize.width
         val x = i % textSize.width
         log.info("Zeichen {}/{} wird ausgeblendet.", y, x)
         val group = children[y.toInt()] as Group
@@ -143,12 +145,12 @@ class KlockFX : Application() {
     }
 
 
-    inner class KlockTimer : AnimationTimer() {
+    inner class KlockTimer(val periodInMillis: Long) : AnimationTimer() {
 
         var t0 : Long = System.nanoTime()
 
         override fun handle(now: Long) {
-            if ((now - t0) > 5_000_000_000L) {
+            if ((now - t0) > periodInMillis * 1_000_000L) {
                 log.debug("tick {}", now)
                 t0 = now
                 showKlock()
