@@ -6,6 +6,10 @@ Es orientiert sich an
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
+- alle Zeichen werden nacheinander ausgeblendet, um ein Einbrennen auf OLEDs zu verhindern
+
 
 ## [0.5] - 2022-01-06
 
