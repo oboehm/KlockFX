@@ -6,7 +6,7 @@
 
     <groupId>com.github.oboehm</groupId>
     <artifactId>KlockFX</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6</version>
     <description>ein QlockTwo-Clone auf Basis von Kotlin und JavaFX</description>
 
     <properties>
@@ -35,12 +35,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.17.0</version>
+            <version>2.17.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.17.0</version>
+            <version>2.17.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
