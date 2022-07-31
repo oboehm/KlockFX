@@ -15,7 +15,7 @@ import javafx.stage.Stage
 import org.apache.logging.log4j.LogManager
 import java.lang.Double.min
 
-internal val COLOR_DARK : Color = Color(1.0, 1.0, 1.0, 0.07)
+internal val COLOR_DARK : Color = Color(0.0, 0.0, 1.0, 0.25)
 internal val COLOR_LIGHT : Color = Color(1.0, 1.0, 1.0, 0.50)
 
 class KlockFX : Application() {
