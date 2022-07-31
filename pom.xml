@@ -6,7 +6,7 @@
 
     <groupId>com.github.oboehm</groupId>
     <artifactId>KlockFX</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
     <description>ein QlockTwo-Clone auf Basis von Kotlin und JavaFX</description>
 
     <properties>

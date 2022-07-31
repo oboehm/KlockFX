@@ -24,8 +24,8 @@ Daher wird JavaFX nach Anleitung aus [JavaFX und Raspbian OS](https://www.sbuech
 
 Danach kann die JAR-Datei kopiert und gestartet werdenL
 
-    scp target/KlockFX-0.7-SNAPSHOT-uberjar.jar pi@raspberrypi.fritz.box:
-    java -jar KlockFX-0.7-SNAPSHOT-uberjar.jar
+    scp target/KlockFX-0.7-uberjar.jar pi@raspberrypi.fritz.box:
+    java -jar KlockFX-0.7-uberjar.jar
 
 Um die Anwendung automatisch beim Booten zu starten, ruft man sie am besten in
 

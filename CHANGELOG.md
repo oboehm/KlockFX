@@ -6,6 +6,12 @@ Es orientiert sich an
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.7] - 2022-07-31
+
+- Doku für RasPi hinzugefügt
+- Fine-Tuning Farbgebung
+
+
 ## [0.6] - 2022-03-21
 
 - alle Zeichen werden nacheinander ausgeblendet, um ein Einbrennen auf OLEDs zu verhindern
